@@ -22,11 +22,22 @@ type IConnector interface {
 	Type() State
 	StartTransaction() error
 	ChangeState(s State, callback Callback) error
-	Error(s State, e ErrorCode, fn Callback)
+	Error(e ErrorCode, info string)
 }
 
 type ConnectorState struct {
 	Time        time.Time
 	State       State
 	Transaction int
+	ErrorCode   ErrorCode
+	Info        string
+	WhiteList   []State
+}
+
+type Available struct {
+	ConnectorState
+}
+
+type Unavailable struct {
+	ConnectorState
 }

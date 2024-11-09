@@ -1,26 +1,19 @@
 package connector
 
 import (
-	"fmt"
+	"time"
 )
 
-func (state *Available) ChangeState(s State, fn Callback) error {
-	if err := state.IsNotTheSameState(s); err != nil {
-		return err
-	}
-
-	if s == FINISHING {
-		return fmt.Errorf("unable to transition from %s to %s", state.State, s)
-	}
-
-	newState, err := FetchState(s, state.ConnectorState)
-	if err != nil {
-		return err
-	}
-
-	return fn(newState)
+var AvailableList = []State{
+	PREPARING,
+	CHARGING,
+	SUSPENDED_EV,
+	SUSPENDED_EVSE,
+	RESERVED,
+	UNAVAILABLE,
+	FAULTED,
 }
 
-type Available struct {
-	ConnectorState
+func GetAvailable() IConnector {
+	return &Available{ConnectorState{time.Now(), AVAILABLE, -1, NO_ERROR, "", AvailableList}}
 }

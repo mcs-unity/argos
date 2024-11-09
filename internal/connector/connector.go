@@ -2,8 +2,8 @@ package connector
 
 import (
 	"fmt"
+	"slices"
 	"strconv"
-	"time"
 )
 
 /*
@@ -33,7 +33,7 @@ func CreateConnectors(s string) ([]IConnector, error) {
 
 	con := make([]IConnector, connectors)
 	for i := 0; i < connectors; i++ {
-		con[i] = &Available{ConnectorState{time.Now(), AVAILABLE, -1}}
+		con[i] = GetAvailable()
 	}
 
 	return con, nil
@@ -46,18 +46,41 @@ func (state ConnectorState) IsNotTheSameState(s State) error {
 	return nil
 }
 
+func (state ConnectorState) ChangePermitted(s State) bool {
+	return slices.Contains(state.WhiteList, s)
+}
+
 func FetchState(s State, con ConnectorState) (IConnector, error) {
 	var state IConnector
 	switch s {
 	case AVAILABLE:
+		con.WhiteList = AvailableList
 		state = &Available{con}
 	case UNAVAILABLE:
+		con.WhiteList = AvailableList
 		state = &Unavailable{con}
 	default:
 		return nil, fmt.Errorf("failed to find state: %s", s)
 	}
 
 	return state, nil
+}
+
+func (state ConnectorState) ChangeState(s State, fn Callback) error {
+	if err := state.IsNotTheSameState(s); err != nil {
+		return err
+	}
+
+	if !state.ChangePermitted(s) {
+		return fmt.Errorf("unable to transition from %s to %s", state.State, s)
+	}
+
+	newState, err := FetchState(s, state)
+	if err != nil {
+		return err
+	}
+
+	return fn(newState)
 }
 
 func (state *Available) StartTransaction() error {
@@ -67,8 +90,9 @@ func (state *Available) StartTransaction() error {
 	return nil
 }
 
-func (state *ConnectorState) Error(s State, e ErrorCode, fn Callback) {
-
+func (state *ConnectorState) Error(e ErrorCode, info string) {
+	state.ErrorCode = e
+	state.Info = info
 }
 
 func (state ConnectorState) Type() State {
