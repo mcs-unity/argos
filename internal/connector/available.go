@@ -1,20 +1,15 @@
 package connector
 
 import (
-	"errors"
 	"fmt"
 )
 
-func (state Unavailable) StartTransaction() error {
-	return errors.New("connector is unavailable")
-}
-
-func (state *Unavailable) ChangeState(s State, fn Callback) error {
+func (state *Available) ChangeState(s State, fn Callback) error {
 	if err := state.IsNotTheSameState(s); err != nil {
 		return err
 	}
 
-	if s != AVAILABLE {
+	if s == FINISHING {
 		return fmt.Errorf("unable to transition from %s to %s", state.State, s)
 	}
 
@@ -26,6 +21,6 @@ func (state *Unavailable) ChangeState(s State, fn Callback) error {
 	return fn(newState)
 }
 
-type Unavailable struct {
+type Available struct {
 	ConnectorState
 }

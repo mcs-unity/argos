@@ -1,17 +1,32 @@
 package connector
 
-type StatusNotification string
+import "time"
 
 const (
-	AVAILABLE      StatusNotification = "Available"
-	PREPARING      StatusNotification = "Preparing"
-	CHARGING       StatusNotification = "Charging"
-	SUSPENDED_EVSE StatusNotification = "SuspendedEVSE"
-	SUSPENDED_EV   StatusNotification = "SuspendedEV"
-	FINISHING      StatusNotification = "Finishing"
-	RESERVED       StatusNotification = "Reserved"
-	UNAVAILABLE    StatusNotification = "Unavailable"
-	FAULTED        StatusNotification = "Faulted"
+	AVAILABLE      State = "Available"
+	PREPARING      State = "Preparing"
+	CHARGING       State = "Charging"
+	SUSPENDED_EVSE State = "SuspendedEVSE"
+	SUSPENDED_EV   State = "SuspendedEV"
+	FINISHING      State = "Finishing"
+	RESERVED       State = "Reserved"
+	UNAVAILABLE    State = "Unavailable"
+	FAULTED        State = "Faulted"
 )
 
-type IConnector interface{}
+type State string
+type ErrorCode string
+type Callback = func(state IConnector) error
+
+type IConnector interface {
+	Type() State
+	StartTransaction() error
+	ChangeState(s State, callback Callback) error
+	Error(s State, e ErrorCode, fn Callback)
+}
+
+type ConnectorState struct {
+	Time        time.Time
+	State       State
+	Transaction int
+}
