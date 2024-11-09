@@ -2,21 +2,23 @@ package exception
 
 import (
 	"fmt"
-	"reflect"
 )
 
 /*
-	add errors handling
-	panic handler
 	ocpp error
 	other forms of errors
 */
 
 func printError(err any) {
 	errMessage := ""
-	switch reflect.TypeOf(err).Name() {
-	case "string":
-		errMessage = err.(string)
+
+	switch v := err.(type) {
+	case string:
+		errMessage = v
+	case error:
+		errMessage = v.Error()
+	default:
+		errMessage = "unable to convert error to printable format"
 	}
 
 	fmt.Printf("error: %s\n", errMessage)

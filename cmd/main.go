@@ -3,6 +3,7 @@ package main
 import (
 	"os"
 
+	"github.com/mcs-unity/ocpp-simulator/internal/charger"
 	"github.com/mcs-unity/ocpp-simulator/internal/exception"
 )
 
@@ -13,11 +14,13 @@ func main() {
 	if len(args) < 3 {
 		panic("input arguments invalid please use command <websocket> <connectors>")
 	}
-	/*
-		1. read command line arguments
-		2. validate argument length
-		3. validate argument values
-		4. handle errors
-		5. enter loop
-	*/
+
+	ch, err := charger.NewCharger([]byte(args[1]), args[2])
+	if err != nil {
+		panic(err)
+	}
+
+	if err := ch.Start(); err != nil {
+		panic(err)
+	}
 }
