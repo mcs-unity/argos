@@ -33,7 +33,7 @@ func CreateConnectors(s string) ([]IConnector, error) {
 
 	con := make([]IConnector, connectors)
 	for i := 0; i < connectors; i++ {
-		// initialize as unavailable
+		con[i] = Unavailable{}
 	}
 
 	return con, nil
