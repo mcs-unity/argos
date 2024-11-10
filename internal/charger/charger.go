@@ -1,17 +1,18 @@
 package charger
 
 import (
-	"errors"
 	"regexp"
 	"sync"
+	"time"
 
+	"github.com/mcs-unity/ocpp-simulator/internal/bootnotification"
 	"github.com/mcs-unity/ocpp-simulator/internal/connector"
+	"github.com/mcs-unity/ocpp-simulator/internal/socket"
 )
 
 /*
 	initiate charging simulator
 	contains run time information such as env
-	allow charger to reboot (reset connector state and follow OCPP procedure)
 	keep configurations in file to be loaded on boot
 */
 
@@ -20,40 +21,23 @@ func verifyUrl(s []byte) bool {
 	return reg.Match(s)
 }
 
-func (c *Charger) Start() error {
-	if c.started {
-		return errors.New("charger is already started")
-	}
-	c.started = true
-
-	// begin connecting websocket
-	return nil
+func seconds(s int) time.Duration {
+	return time.Duration(s) * time.Second
 }
 
-func (c *Charger) Reboot(t RebootType) error {
-	defer c.lock.Unlock()
-	c.lock.Lock()
+func NewCharger(connectors string) (ICharger, error) {
 
-	if t == HARD {
-		// simulate rebooting the hardware long reboot
-		// hard reboot don't be smooth
-	} else {
-		// simulate rebooting the firmware short reboot
-		// also known as a graceful reboot
-	}
-
-	return nil
-}
-
-func NewCharger(s []byte, n string) (ICharger, error) {
-	if !verifyUrl(s) {
-		return nil, errors.New("<websocket> argument must be either ws:// or wss:// protocol")
-	}
-
-	connectors, err := connector.CreateConnectors(n)
+	plugs, err := connector.CreateConnectors(connectors)
 	if err != nil {
 		return nil, err
 	}
 
-	return &Charger{&sync.Mutex{}, false, connectors}, nil
+	return &Charger{
+		&sync.Mutex{},
+		false,
+		plugs,
+		seconds(30),
+		bootnotification.REJECTED,
+		&socket.Socket{},
+	}, nil
 }
