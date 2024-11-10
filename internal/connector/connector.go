@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"slices"
 	"strconv"
+	"time"
 )
 
 /*
@@ -57,7 +58,7 @@ func FetchState(s State, con ConnectorState) (IConnector, error) {
 		con.WhiteList = AvailableList
 		state = &Available{con}
 	case UNAVAILABLE:
-		con.WhiteList = AvailableList
+		con.WhiteList = UnAvailableList
 		state = &Unavailable{con}
 	default:
 		return nil, fmt.Errorf("failed to find state: %s", s)
@@ -97,4 +98,8 @@ func (state *ConnectorState) Error(e ErrorCode, info string) {
 
 func (state ConnectorState) Type() State {
 	return state.State
+}
+
+func newConnector(s State, list []State) ConnectorState {
+	return ConnectorState{time.Now(), s, -1, NO_ERROR, "", list}
 }

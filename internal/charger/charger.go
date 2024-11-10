@@ -3,6 +3,7 @@ package charger
 import (
 	"errors"
 	"regexp"
+	"sync"
 
 	"github.com/mcs-unity/ocpp-simulator/internal/connector"
 )
@@ -19,7 +20,28 @@ func verifyUrl(s []byte) bool {
 	return reg.Match(s)
 }
 
-func (s *Charger) Start() error {
+func (c *Charger) Start() error {
+	if c.started {
+		return errors.New("charger is already started")
+	}
+	c.started = true
+
+	// begin connecting websocket
+	return nil
+}
+
+func (c *Charger) Reboot(t RebootType) error {
+	defer c.lock.Unlock()
+	c.lock.Lock()
+
+	if t == HARD {
+		// simulate rebooting the hardware long reboot
+		// hard reboot don't be smooth
+	} else {
+		// simulate rebooting the firmware short reboot
+		// also known as a graceful reboot
+	}
+
 	return nil
 }
 
@@ -33,5 +55,5 @@ func NewCharger(s []byte, n string) (ICharger, error) {
 		return nil, err
 	}
 
-	return &Charger{connectors}, nil
+	return &Charger{&sync.Mutex{}, false, connectors}, nil
 }
