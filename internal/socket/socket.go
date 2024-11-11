@@ -2,6 +2,7 @@ package socket
 
 import (
 	"errors"
+	"fmt"
 	"time"
 
 	"github.com/gorilla/websocket"
@@ -26,6 +27,21 @@ func (s *Socket) Connect(url []byte) error {
 
 	s.con = con
 	return nil
+}
+
+func (s *Socket) Read() {
+	for {
+		_, m, err := s.con.ReadMessage()
+		if err != nil {
+
+		}
+
+		fmt.Println(string(m))
+	}
+}
+
+func (s *Socket) Write(data []byte) error {
+	return s.con.WriteMessage(websocket.TextMessage, data)
 }
 
 func (s *Socket) Terminate() error {
@@ -53,6 +69,18 @@ func (s *SocketMock) Connect(url []byte) error {
 func (s *SocketMock) Terminate() error {
 	if s.failTerminate {
 		return errors.New("failed to terminate socket")
+	}
+
+	return nil
+}
+
+func (s *SocketMock) Read() {
+
+}
+
+func (s *SocketMock) Write(data []byte) error {
+	if s.failWrite {
+		return errors.New("failed to send message ")
 	}
 
 	return nil

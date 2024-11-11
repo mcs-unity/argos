@@ -7,6 +7,8 @@ import (
 	"time"
 )
 
+// retry to connect until success
+
 func (c *Charger) Start(url []byte) error {
 	if !verifyUrl(url) {
 		return errors.New("<websocket> argument must be either ws:// or wss:// protocol")
@@ -23,10 +25,12 @@ func (c *Charger) Start(url []byte) error {
 		return err
 	}
 
+	go c.socket.Read()
+
+	c.socket.Write([]byte("hello"))
 	// load env config
 	// begin connecting websocket
 	// send BootNotification
-	// retry until success
 
 	return nil
 }

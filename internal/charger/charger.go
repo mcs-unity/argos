@@ -26,7 +26,6 @@ func seconds(s int) time.Duration {
 }
 
 func NewCharger(connectors string, sock socket.ISocket) (ICharger, error) {
-
 	plugs, err := connector.CreateConnectors(connectors)
 	if err != nil {
 		return nil, err

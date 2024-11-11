@@ -30,7 +30,7 @@ type Charger struct {
 	lock       sync.Locker
 	started    bool
 	connectors []connector.IConnector
-	heartbeat  time.Duration // this shall be reassigned after the charger connects
+	heartbeat  time.Duration // this shall be reassigned after the charger connects and performs bootNotification
 	bootState  bootnotification.State
 	socket     socket.ISocket
 }
