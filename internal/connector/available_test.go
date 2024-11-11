@@ -13,7 +13,7 @@ func TestGetAvailableState(t *testing.T) {
 
 func TestAvailableTransaction(t *testing.T) {
 	var f IConnector = GetAvailable()
-	if err := f.StartTransaction(); err != nil {
+	if err := f.StartTransaction(1); err != nil {
 		t.Error(err)
 	}
 }
@@ -26,9 +26,11 @@ func fakeCallBack(list []IConnector, id uint8) Callback {
 }
 
 func TestStartTransaction(t *testing.T) {
-	f := GetAvailable()
-	if err := f.StartTransaction(); err != nil {
-		t.Error(err)
+	a := GetAvailable()
+	transaction := 100
+	a.StartTransaction(transaction)
+	if tr := a.GetTransaction(); tr != transaction {
+		t.Errorf("expected transaction id %d got %d", transaction, tr)
 	}
 }
 

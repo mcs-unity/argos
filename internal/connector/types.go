@@ -20,7 +20,9 @@ type Callback = func(state IConnector) error
 
 type IConnector interface {
 	Type() State
-	StartTransaction() error
+	StartTransaction(id int) error
+	StopTransaction(id int) error
+	GetTransaction() int
 	ChangeState(s State, callback Callback) error
 	Error(e ErrorCode, info string)
 }

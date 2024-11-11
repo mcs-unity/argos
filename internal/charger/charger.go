@@ -38,5 +38,6 @@ func NewCharger(connectors string, sock socket.ISocket) (ICharger, error) {
 		seconds(30),
 		bootnotification.REJECTED,
 		sock,
+		NONE,
 	}, nil
 }

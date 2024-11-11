@@ -35,3 +35,26 @@ func TestCreateConnectors(t *testing.T) {
 		t.Errorf("expected array length of %d go %d", length, arrLength)
 	}
 }
+
+func TestGetTransaction(t *testing.T) {
+	a := GetAvailable()
+	if a.GetTransaction() != -1 {
+		t.Error("failed to get transaction")
+	}
+}
+
+func TestStopTransaction(t *testing.T) {
+	a := GetAvailable()
+	transaction := 101
+	if err := a.StartTransaction(transaction); err != nil {
+		t.Error(err)
+	}
+
+	if err := a.StopTransaction(transaction); err != nil {
+		t.Error(err)
+	}
+
+	if a.GetTransaction() != -1 {
+		t.Error("failed to stop transaction")
+	}
+}

@@ -1,22 +1,60 @@
 package charger
 
+import (
+	"fmt"
+	"time"
+)
+
 //	allow charger to reboot (reset connector state and follow OCPP procedure)
+
+func (c *Charger) ResetConnectors() {
+	for _, con := range c.connectors {
+		t := con.GetTransaction()
+
+		if t == -1 {
+			continue
+		}
+
+		if err := con.StopTransaction(t); err != nil {
+			fmt.Println("err")
+		}
+	}
+}
+
+func hard(c *Charger) {
+	if err := c.Stop(); err != nil {
+		panic(err)
+	}
+
+	time.Sleep(30 * time.Second)
+
+	c.boot = HARD
+}
+
+func soft(c *Charger) {
+	if err := c.socket.Close(); err != nil {
+		panic(err)
+	}
+
+	time.Sleep(10 * time.Second)
+
+	c.boot = SOFT
+
+}
 
 func (c *Charger) Reboot(t RebootType) error {
 	defer c.lock.Unlock()
 	c.lock.Lock()
 
 	if t == HARD {
-		// simulate rebooting the hardware long reboot
-		// hard reboot don't be smooth
-		// set flag hard boot
+		hard(c)
 	} else {
-		// simulate rebooting the firmware short reboot
-		// also known as a graceful reboot
-		// set flag soft boot
+		soft(c)
 	}
 
-	// Retry start procedure
+	if err := c.Start([]byte("")); err != nil {
+		panic(err)
+	}
 
 	return nil
 }

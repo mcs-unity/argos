@@ -1,6 +1,7 @@
 package connector
 
 import (
+	"errors"
 	"fmt"
 	"slices"
 	"strconv"
@@ -84,10 +85,16 @@ func (state ConnectorState) ChangeState(s State, fn Callback) error {
 	return fn(newState)
 }
 
-func (state *Available) StartTransaction() error {
-	if state.Transaction != -1 {
-		return fmt.Errorf("transaction (%d) is in progress", state.Transaction)
+func (state *ConnectorState) StartTransaction(id int) error {
+	return nil
+}
+
+func (state *ConnectorState) StopTransaction(id int) error {
+	if state.Transaction == -1 {
+		return errors.New("no transaction in progress")
 	}
+
+	state.Transaction = -1
 	return nil
 }
 
@@ -98,6 +105,10 @@ func (state *ConnectorState) Error(e ErrorCode, info string) {
 
 func (state ConnectorState) Type() State {
 	return state.State
+}
+
+func (state *ConnectorState) GetTransaction() int {
+	return state.Transaction
 }
 
 func newConnector(s State, list []State) ConnectorState {

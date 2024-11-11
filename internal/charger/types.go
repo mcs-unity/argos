@@ -12,6 +12,7 @@ import (
 const (
 	SOFT RebootType = "soft"
 	HARD RebootType = "hard"
+	NONE RebootType = "none"
 )
 
 type RebootType string
@@ -33,4 +34,5 @@ type Charger struct {
 	heartbeat  time.Duration // this shall be reassigned after the charger connects and performs bootNotification
 	bootState  bootnotification.State
 	socket     socket.ISocket
+	boot       RebootType
 }

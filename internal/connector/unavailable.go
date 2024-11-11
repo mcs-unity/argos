@@ -13,7 +13,7 @@ var UnAvailableList = []State{
 	FAULTED,
 }
 
-func (state Unavailable) StartTransaction() error {
+func (state Unavailable) StartTransaction(id int) error {
 	return errors.New("connector is unavailable")
 }
 

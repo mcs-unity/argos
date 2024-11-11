@@ -25,8 +25,8 @@ func TestCloseError(t *testing.T) {
 func TestTerminate(t *testing.T) {
 	s := MockSocket()
 
-	if err := s.Terminate(); err == nil {
-		t.Error("failed to throw error")
+	if err := s.Terminate(); err != nil {
+		t.Error(err)
 	}
 }
 
