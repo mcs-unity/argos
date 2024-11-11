@@ -18,7 +18,7 @@ const (
 type RebootType string
 
 type ICharger interface {
-	Start(url []byte) error
+	Start() error
 	Reboot(t RebootType) error
 	die(ch chan<- interface{})
 	Stop() error
@@ -28,6 +28,7 @@ type ICharger interface {
 // assign array of charging profiles
 // add authorization cache
 type Charger struct {
+	url        []byte
 	lock       sync.Locker
 	started    bool
 	connectors []connector.IConnector

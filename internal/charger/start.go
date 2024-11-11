@@ -9,11 +9,7 @@ import (
 
 // retry to connect until success
 
-func (c *Charger) Start(url []byte) error {
-	if !verifyUrl(url) {
-		return errors.New("<websocket> argument must be either ws:// or wss:// protocol")
-	}
-
+func (c *Charger) Start() error {
 	c.lock.Lock()
 	defer c.lock.Unlock()
 
@@ -21,7 +17,7 @@ func (c *Charger) Start(url []byte) error {
 		return errors.New("charger is already started")
 	}
 
-	if err := c.socket.Connect(url); err != nil {
+	if err := c.socket.Connect(c.url); err != nil {
 		return err
 	}
 

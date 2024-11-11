@@ -52,7 +52,7 @@ func (c *Charger) Reboot(t RebootType) error {
 		soft(c)
 	}
 
-	if err := c.Start([]byte("")); err != nil {
+	if err := c.Start(); err != nil {
 		panic(err)
 	}
 

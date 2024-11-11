@@ -7,6 +7,8 @@ import (
 	"github.com/mcs-unity/ocpp-simulator/internal/socket"
 )
 
+var url = []byte("ws://localhost:3000")
+
 func TestValidWebsocketUrl(t *testing.T) {
 	if verifyUrl([]byte("wss://localhost:3000")) == false {
 		t.Error("provided url is not a valid websocket url")
@@ -27,19 +29,19 @@ func TestSeconds(t *testing.T) {
 }
 
 func TestNewCharger(t *testing.T) {
-	_, err := NewCharger("3", &socket.SocketMock{})
+	_, err := NewCharger(url, "3", &socket.SocketMock{})
 	if err != nil {
 		t.Error(err)
 	}
 }
 
 func TestStart(t *testing.T) {
-	ch, err := NewCharger("3", &socket.SocketMock{})
+	ch, err := NewCharger(url, "3", &socket.SocketMock{})
 	if err != nil {
 		t.Error(err)
 	}
 
-	if err := ch.Start([]byte("ws://localhost:3000")); err != nil {
+	if err := ch.Start(); err != nil {
 		t.Error(err)
 	}
 }

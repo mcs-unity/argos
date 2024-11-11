@@ -1,6 +1,7 @@
 package charger
 
 import (
+	"errors"
 	"regexp"
 	"sync"
 	"time"
@@ -25,13 +26,18 @@ func seconds(s int) time.Duration {
 	return time.Duration(s) * time.Second
 }
 
-func NewCharger(connectors string, sock socket.ISocket) (ICharger, error) {
+func NewCharger(url []byte, connectors string, sock socket.ISocket) (ICharger, error) {
+	if !verifyUrl(url) {
+		return nil, errors.New("<websocket> argument must be either ws:// or wss:// protocol")
+	}
+
 	plugs, err := connector.CreateConnectors(connectors)
 	if err != nil {
 		return nil, err
 	}
 
 	return &Charger{
+		url,
 		&sync.Mutex{},
 		false,
 		plugs,
