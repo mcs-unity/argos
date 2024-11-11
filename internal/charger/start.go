@@ -17,6 +17,10 @@ func (c *Charger) Start() error {
 		return errors.New("charger is already started")
 	}
 
+	if c.boot == NONE {
+		// load env config
+	}
+
 	if err := c.socket.Connect(c.url); err != nil {
 		return err
 	}
@@ -24,8 +28,6 @@ func (c *Charger) Start() error {
 	go c.socket.Read()
 
 	c.socket.Write([]byte("hello"))
-	// load env config
-	// begin connecting websocket
 	// send BootNotification
 
 	return nil
