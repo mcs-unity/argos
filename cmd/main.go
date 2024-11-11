@@ -8,6 +8,7 @@ import (
 
 	"github.com/mcs-unity/ocpp-simulator/internal/charger"
 	"github.com/mcs-unity/ocpp-simulator/internal/exception"
+	"github.com/mcs-unity/ocpp-simulator/internal/socket"
 )
 
 func printCopyRight(path string) {
@@ -33,7 +34,7 @@ func main() {
 		panic("input arguments invalid please use command <websocket> <connectors>")
 	}
 
-	ch, err := charger.NewCharger(args[2])
+	ch, err := charger.NewCharger(args[2], &socket.Socket{})
 	if err != nil {
 		panic(err)
 	}

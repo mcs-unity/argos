@@ -3,6 +3,8 @@ package charger
 import (
 	"fmt"
 	"testing"
+
+	"github.com/mcs-unity/ocpp-simulator/internal/socket"
 )
 
 func TestValidWebsocketUrl(t *testing.T) {
@@ -25,14 +27,14 @@ func TestSeconds(t *testing.T) {
 }
 
 func TestNewCharger(t *testing.T) {
-	_, err := NewCharger("3")
+	_, err := NewCharger("3", &socket.SocketMock{})
 	if err != nil {
 		t.Error(err)
 	}
 }
 
 func TestStart(t *testing.T) {
-	ch, err := NewCharger("3")
+	ch, err := NewCharger("3", &socket.SocketMock{})
 	if err != nil {
 		t.Error(err)
 	}

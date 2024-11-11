@@ -1,6 +1,7 @@
 package socket
 
 import (
+	"errors"
 	"time"
 
 	"github.com/gorilla/websocket"
@@ -39,4 +40,28 @@ func (s *Socket) Close() error {
 			"Normal closure",
 		),
 		time.Now().Add(1*time.Second))
+}
+
+func (s *SocketMock) Connect(url []byte) error {
+	if s.failConnect {
+		return errors.New("")
+	}
+
+	return nil
+}
+
+func (s *SocketMock) Terminate() error {
+	if s.failTerminate {
+		return errors.New("failed to terminate socket")
+	}
+
+	return nil
+}
+
+func (s *SocketMock) Close() error {
+	if s.failClose {
+		return errors.New("failed to send close message ")
+	}
+
+	return nil
 }

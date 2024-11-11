@@ -11,3 +11,9 @@ type ISocket interface {
 type Socket struct {
 	con *websocket.Conn
 }
+
+type SocketMock struct {
+	failConnect   bool
+	failTerminate bool
+	failClose     bool
+}

@@ -25,7 +25,7 @@ func seconds(s int) time.Duration {
 	return time.Duration(s) * time.Second
 }
 
-func NewCharger(connectors string) (ICharger, error) {
+func NewCharger(connectors string, sock socket.ISocket) (ICharger, error) {
 
 	plugs, err := connector.CreateConnectors(connectors)
 	if err != nil {
@@ -38,6 +38,6 @@ func NewCharger(connectors string) (ICharger, error) {
 		plugs,
 		seconds(30),
 		bootnotification.REJECTED,
-		&socket.Socket{},
+		sock,
 	}, nil
 }
