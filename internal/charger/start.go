@@ -18,7 +18,9 @@ func (c *Charger) Start() error {
 	}
 
 	if c.boot == NONE {
-		// load env config
+		if err := loadEnv(c.directory); err != nil {
+			panic(err)
+		}
 	}
 
 	if err := c.socket.Connect(c.url); err != nil {

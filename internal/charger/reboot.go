@@ -27,8 +27,8 @@ func hard(c *Charger) {
 	}
 
 	time.Sleep(30 * time.Second)
-
 	c.boot = HARD
+	// the charger should stop transaction after reboot
 }
 
 func soft(c *Charger) {
@@ -37,9 +37,7 @@ func soft(c *Charger) {
 	}
 
 	time.Sleep(10 * time.Second)
-
 	c.boot = SOFT
-
 }
 
 func (c *Charger) Reboot(t RebootType) error {

@@ -1,3 +1,217 @@
 {
-    "":""
+    "AllowOfflineTxForUnknownId": {
+        "readOnly": true,
+        "value": 1,
+        "type": "boolean"
+    },
+    "AuthorizationCacheEnabled": {
+        "readOnly": true,
+        "value": 1,
+        "type": "boolean"
+    },
+    "AuthorizeRemoteTxRequests": {
+        "readOnly": true,
+        "value": 1,
+        "type": "boolean"
+    },
+    "BlinkRepeat": {
+        "readOnly": true,
+        "value": 1,
+        "type": "boolean"
+    },
+    "ClockAlignedDataInterval": {
+        "readOnly": true,
+        "value": 1,
+        "type": "boolean"
+    },
+    "ConnectionTimeOut": {
+        "readOnly": true,
+        "value": 1,
+        "type": "boolean"
+    },
+    "ConnectorPhaseRotation": {
+        "readOnly": true,
+        "value": 1,
+        "type": "boolean"
+    },
+    "ConnectorPhaseRotationMaxLength": {
+        "readOnly": true,
+        "value": 1,
+        "type": "boolean"
+    },
+    "GetConfigurationMaxKeys": {
+        "readOnly": true,
+        "value": 1,
+        "type": "boolean"
+    },
+    "HeartbeatInterval": {
+        "readOnly": true,
+        "value": 1,
+        "type": "boolean"
+    },
+    "LightIntensity": {
+        "readOnly": true,
+        "value": 1,
+        "type": "boolean"
+    },
+    "LocalAuthorizeOffline": {
+        "readOnly": true,
+        "value": 1,
+        "type": "boolean"
+    },
+    "LocalPreAuthorize": {
+        "readOnly": true,
+        "value": 1,
+        "type": "boolean"
+    },
+    "MaxEnergyOnInvalidId": {
+        "readOnly": true,
+        "value": 1,
+        "type": "boolean"
+    },
+    "MeterValuesAlignedData": {
+        "readOnly": true,
+        "value": 1,
+        "type": "boolean"
+    },
+    "MeterValuesAlignedDataMaxLength": {
+        "readOnly": true,
+        "value": 1,
+        "type": "boolean"
+    },
+    "MeterValuesSampledData": {
+        "readOnly": true,
+        "value": 1,
+        "type": "boolean"
+    },
+    "MeterValuesSampledDataMaxLength": {
+        "readOnly": true,
+        "value": 1,
+        "type": "boolean"
+    },
+    "MeterValueSampleInterval": {
+        "readOnly": true,
+        "value": 1,
+        "type": "boolean"
+    },
+    "MinimumStatusDuration": {
+        "readOnly": true,
+        "value": 1,
+        "type": "boolean"
+    },
+    "NumberOfConnectors": {
+        "readOnly": true,
+        "value": 1,
+        "type": "boolean"
+    },
+    "ResetRetries": {
+        "readOnly": true,
+        "value": 1,
+        "type": "boolean"
+    },
+    "StopTransactionOnEVSideDisconnect": {
+        "readOnly": true,
+        "value": 1,
+        "type": "boolean"
+    },
+    "StopTransactionOnInvalidId": {
+        "readOnly": true,
+        "value": 1,
+        "type": "boolean"
+    },
+    "StopTxnAlignedData": {
+        "readOnly": true,
+        "value": 1,
+        "type": "boolean"
+    },
+    "StopTxnAlignedDataMaxLength": {
+        "readOnly": true,
+        "value": 1,
+        "type": "boolean"
+    },
+    "StopTxnSampledData": {
+        "readOnly": true,
+        "value": 1,
+        "type": "boolean"
+    },
+    "StopTxnSampledDataMaxLength": {
+        "readOnly": true,
+        "value": 1,
+        "type": "boolean"
+    },
+    "SupportedFeatureProfiles": {
+        "readOnly": true,
+        "value": 1,
+        "type": "boolean"
+    },
+    "SupportedFeatureProfilesMaxLength": {
+        "readOnly": true,
+        "value": 1,
+        "type": "boolean"
+    },
+    "TransactionMessageAttempts": {
+        "readOnly": true,
+        "value": 1,
+        "type": "boolean"
+    },
+    "TransactionMessageRetryInterval": {
+        "readOnly": true,
+        "value": 1,
+        "type": "boolean"
+    },
+    "UnlockConnectorOnEVSideDisconnect": {
+        "readOnly": true,
+        "value": 1,
+        "type": "boolean"
+    },
+    "WebSocketPingInterval": {
+        "readOnly": true,
+        "value": 1,
+        "type": "boolean"
+    },
+    "LocalAuthListEnabled": {
+        "readOnly": true,
+        "value": 1,
+        "type": "boolean"
+    },
+    "LocalAuthListMaxLength": {
+        "readOnly": true,
+        "value": 1,
+        "type": "boolean"
+    },
+    "SendLocalListMaxLength": {
+        "readOnly": true,
+        "value": 1,
+        "type": "boolean"
+    },
+    "ReserveConnectorZeroSupported": {
+        "readOnly": true,
+        "value": 1,
+        "type": "boolean"
+    },
+    "ChargeProfileMaxStackLevel": {
+        "readOnly": true,
+        "value": 1,
+        "type": "boolean"
+    },
+    "ChargingScheduleAllowedChargingRateUnit": {
+        "readOnly": true,
+        "value": 1,
+        "type": "boolean"
+    },
+    "ChargingScheduleMaxPeriods": {
+        "readOnly": true,
+        "value": 1,
+        "type": "boolean"
+    },
+    "ConnectorSwitch3to1PhaseSupported": {
+        "readOnly": true,
+        "value": 1,
+        "type": "boolean"
+    },
+    "MaxChargingProfilesInstalled": {
+        "readOnly": true,
+        "value": 1,
+        "type": "boolean"
+    }
 }

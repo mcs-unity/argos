@@ -26,7 +26,7 @@ func seconds(s int) time.Duration {
 	return time.Duration(s) * time.Second
 }
 
-func NewCharger(url []byte, connectors string, sock socket.ISocket) (ICharger, error) {
+func NewCharger(url []byte, connectors string, sock socket.ISocket, rootDir string) (ICharger, error) {
 	if !verifyUrl(url) {
 		return nil, errors.New("<websocket> argument must be either ws:// or wss:// protocol")
 	}
@@ -45,5 +45,6 @@ func NewCharger(url []byte, connectors string, sock socket.ISocket) (ICharger, e
 		bootnotification.REJECTED,
 		sock,
 		NONE,
+		rootDir,
 	}, nil
 }

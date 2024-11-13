@@ -34,7 +34,7 @@ func main() {
 		panic("input arguments invalid please use command <websocket> <connectors>")
 	}
 
-	ch, err := charger.NewCharger([]byte(args[1]), args[2], &socket.Socket{})
+	ch, err := charger.NewCharger([]byte(args[1]), args[2], &socket.Socket{}, dir)
 	if err != nil {
 		panic(err)
 	}

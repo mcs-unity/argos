@@ -2,6 +2,7 @@ package charger
 
 import (
 	"fmt"
+	"os"
 	"testing"
 
 	"github.com/mcs-unity/ocpp-simulator/internal/socket"
@@ -29,14 +30,19 @@ func TestSeconds(t *testing.T) {
 }
 
 func TestNewCharger(t *testing.T) {
-	_, err := NewCharger(url, "3", &socket.SocketMock{})
+	_, err := NewCharger(url, "3", &socket.SocketMock{}, "")
 	if err != nil {
 		t.Error(err)
 	}
 }
 
 func TestStart(t *testing.T) {
-	ch, err := NewCharger(url, "3", &socket.SocketMock{})
+	d, err := os.Getwd()
+	if err != nil {
+		t.Error(err)
+	}
+
+	ch, err := NewCharger(url, "3", &socket.SocketMock{}, fmt.Sprintf("%s/../../", d))
 	if err != nil {
 		t.Error(err)
 	}

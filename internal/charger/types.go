@@ -36,4 +36,5 @@ type Charger struct {
 	bootState  bootnotification.State
 	socket     socket.ISocket
 	boot       RebootType
+	directory  string
 }
