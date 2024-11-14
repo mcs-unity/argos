@@ -1,15 +1,35 @@
 package event
 
-import "context"
+import (
+	"context"
+	"sync"
+	"time"
+)
+
+const (
+	TIMEOUT = 30 * time.Second
+)
 
 type key = string
-type Callback func(ctx context.Context, payload any) error
+type name = string
+type Payload = any
+type Done = chan interface{}
+type Callback func(context.Context, Done, Payload)
 
 type IEvent interface {
-	SubScribe(k key, cb Callback) error
-	Trigger(k key, payload any) error
+	SubScribe(key, name, Callback) error
+	Remove(key, name) error
+	Trigger(key, Payload) error
+	Length(key) int
+}
+
+type subscription struct {
+	key
+	Callback
 }
 
 type Event struct {
-	list map[key][]Callback
+	lock    sync.Locker
+	list    map[key][]subscription
+	timeout time.Duration
 }
