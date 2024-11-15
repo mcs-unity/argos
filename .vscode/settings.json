@@ -4,6 +4,7 @@
         "CSMS",
         "EVSE",
         "ocpp",
+        "RIFD",
         "SUSPENDEDEV",
         "SUSPENDEDEVSE"
     ]
