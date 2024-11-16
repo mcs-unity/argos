@@ -13,9 +13,22 @@ func MockSubscriber(ch chan any) Callback {
 	}
 }
 
-func MockSimpleSubscriber() Callback {
+func MockSubscriberWithValue(ch chan any, v int) Callback {
 	return func(ctx context.Context, c Done, p Payload) {
+		ch <- v
 		c <- struct{}{}
+	}
+}
+
+func MockPanicSubscriber() Callback {
+	return func(ctx context.Context, c Done, p Payload) {
+		panic("I'm a fake panic")
+	}
+}
+
+func MockBlockingSubscriber() Callback {
+	return func(ctx context.Context, c Done, p Payload) {
+		time.Sleep(2 * time.Second)
 	}
 }
 
@@ -82,17 +95,11 @@ func TestSubscriber(t *testing.T) {
 	}
 }
 
-func TestSubscribeOrder(t *testing.T) {
-	// subscribe multiple functions to event
-	// trigger event according to registration order
-	// get result
-}
-
 func TestDeleteSubscription(t *testing.T) {
 	key := "test"
 	name := "testFn"
 	c := NewEvent(TIMEOUT)
-	fn := MockSimpleSubscriber()
+	fn := MockSubscriber(nil)
 	if err := c.SubScribe(key, name, fn); err != nil {
 		t.Error(err)
 	}
@@ -108,20 +115,101 @@ func TestDeleteSubscription(t *testing.T) {
 }
 
 func TestSubscriberTriggeredBasedOnOrder(t *testing.T) {
-	// subscribe multiple functions to an event
-	// make sure subs are executed based on subscription order
-	// get result
+	key := "test"
+	c := NewEvent(1 * time.Second)
+	cn := make(chan interface{}, 2)
+	defer close(cn)
+
+	pn := MockSubscriberWithValue(cn, 0)
+	if err := c.SubScribe(key, "testPanic", pn); err != nil {
+		t.Error(err)
+	}
+
+	fn := MockSubscriberWithValue(cn, 1)
+	if err := c.SubScribe(key, "testFn", fn); err != nil {
+		t.Error(err)
+	}
+
+	if err := c.Trigger(key, key); err != nil {
+		t.Error(err)
+	}
+
+	index := 0
+	for i := range cn {
+		if i != index {
+			t.Error("invalid order")
+			return
+		}
+
+		if i == 1 {
+			return
+		}
+		index++
+	}
 }
 
 func TestBlockingSubscriber(t *testing.T) {
-	// subscribe multiple functions to an event
-	// make one function run forever
-	// should stop function and continue
-	// get result
+	key := "test"
+	c := NewEvent(1 * time.Second)
+	cn := make(chan interface{}, 1)
+	defer close(cn)
+
+	pn := MockBlockingSubscriber()
+	if err := c.SubScribe(key, "testPanic", pn); err != nil {
+		t.Error(err)
+	}
+
+	fn := MockSubscriber(cn)
+	if err := c.SubScribe(key, "testFn", fn); err != nil {
+		t.Error(err)
+	}
+
+	if err := c.Trigger(key, key); err != nil {
+		t.Error(err)
+	}
+
+	ctx, cancel := context.WithTimeout(context.Background(), 2*time.Second)
+	defer cancel()
+
+	select {
+	case v := <-cn:
+		if v != key {
+			t.Errorf("expected %s got %s", key, v)
+		}
+	case <-ctx.Done():
+		t.Error("failed to trigger within timeout")
+	}
 }
 
 func TestSubscriberPanicking(t *testing.T) {
-	// panic within a function
-	// should stop function and continue
-	// get result
+	key := "test"
+	c := NewEvent(1 * time.Second)
+	cn := make(chan interface{}, 1)
+	defer close(cn)
+
+	pn := MockPanicSubscriber()
+	if err := c.SubScribe(key, "testPanic", pn); err != nil {
+		t.Error(err)
+	}
+
+	fn := MockSubscriber(cn)
+	if err := c.SubScribe(key, "testFn", fn); err != nil {
+		t.Error(err)
+	}
+
+	if err := c.Trigger(key, key); err != nil {
+		t.Error(err)
+	}
+
+	ctx, cancel := context.WithTimeout(context.Background(), 2*time.Second)
+	defer cancel()
+
+	select {
+	case v := <-cn:
+		if v != key {
+			t.Errorf("expected %s got %s", key, v)
+		}
+	case <-ctx.Done():
+		t.Error("failed to trigger within timeout")
+	}
 }

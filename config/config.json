@@ -1,188 +1,188 @@
 {
     "AllowOfflineTxForUnknownId": {
-        "readOnly": true,
-        "value": 1,
+        "readOnly": false,
+        "value": true,
         "type": "boolean"
     },
     "AuthorizationCacheEnabled": {
-        "readOnly": true,
-        "value": 1,
+        "readOnly": false,
+        "value": false,
         "type": "boolean"
     },
     "AuthorizeRemoteTxRequests": {
         "readOnly": true,
-        "value": 1,
+        "value": false,
         "type": "boolean"
     },
     "BlinkRepeat": {
-        "readOnly": true,
+        "readOnly": false,
         "value": 1,
-        "type": "boolean"
+        "type": "uint8"
     },
     "ClockAlignedDataInterval": {
-        "readOnly": true,
+        "readOnly": false,
         "value": 1,
-        "type": "boolean"
+        "type": "uint16"
     },
     "ConnectionTimeOut": {
-        "readOnly": true,
+        "readOnly": false,
         "value": 1,
-        "type": "boolean"
+        "type": "uint8"
     },
     "ConnectorPhaseRotation": {
-        "readOnly": true,
-        "value": 1,
-        "type": "boolean"
+        "readOnly": false,
+        "value": "NotApplicable",
+        "type": "string"
     },
     "ConnectorPhaseRotationMaxLength": {
         "readOnly": true,
         "value": 1,
-        "type": "boolean"
+        "type": "uint8"
     },
     "GetConfigurationMaxKeys": {
         "readOnly": true,
         "value": 1,
-        "type": "boolean"
+        "type": "uint8"
     },
     "HeartbeatInterval": {
-        "readOnly": true,
-        "value": 1,
-        "type": "boolean"
+        "readOnly": false,
+        "value": 30,
+        "type": "uint16"
     },
     "LightIntensity": {
-        "readOnly": true,
+        "readOnly": false,
         "value": 1,
-        "type": "boolean"
+        "type": "uint8"
     },
     "LocalAuthorizeOffline": {
-        "readOnly": true,
-        "value": 1,
+        "readOnly": false,
+        "value": false,
         "type": "boolean"
     },
     "LocalPreAuthorize": {
-        "readOnly": true,
-        "value": 1,
+        "readOnly": false,
+        "value": false,
         "type": "boolean"
     },
     "MaxEnergyOnInvalidId": {
-        "readOnly": true,
+        "readOnly": false,
         "value": 1,
-        "type": "boolean"
+        "type": "int32"
     },
     "MeterValuesAlignedData": {
-        "readOnly": true,
-        "value": 1,
-        "type": "boolean"
+        "readOnly": false,
+        "value": "MeterValues CSL",
+        "type": "string"
     },
     "MeterValuesAlignedDataMaxLength": {
-        "readOnly": true,
+        "readOnly": false,
         "value": 1,
-        "type": "boolean"
+        "type": "uint8"
     },
     "MeterValuesSampledData": {
-        "readOnly": true,
-        "value": 1,
-        "type": "boolean"
+        "readOnly": false,
+        "value": "MeterValues CSL",
+        "type": "string"
     },
     "MeterValuesSampledDataMaxLength": {
-        "readOnly": true,
+        "readOnly": false,
         "value": 1,
-        "type": "boolean"
+        "type": "uint8"
     },
     "MeterValueSampleInterval": {
-        "readOnly": true,
+        "readOnly": false,
         "value": 1,
-        "type": "boolean"
+        "type": "uint8"
     },
     "MinimumStatusDuration": {
-        "readOnly": true,
+        "readOnly": false,
         "value": 1,
-        "type": "boolean"
+        "type": "uint8"
     },
     "NumberOfConnectors": {
         "readOnly": true,
-        "value": 1,
-        "type": "boolean"
+        "value": 2,
+        "type": "uint8"
     },
     "ResetRetries": {
-        "readOnly": true,
+        "readOnly": false,
         "value": 1,
-        "type": "boolean"
+        "type": "uint8"
     },
     "StopTransactionOnEVSideDisconnect": {
-        "readOnly": true,
-        "value": 1,
+        "readOnly": false,
+        "value": false,
         "type": "boolean"
     },
     "StopTransactionOnInvalidId": {
-        "readOnly": true,
-        "value": 1,
+        "readOnly": false,
+        "value": true,
         "type": "boolean"
     },
     "StopTxnAlignedData": {
-        "readOnly": true,
-        "value": 1,
-        "type": "boolean"
+        "readOnly": false,
+        "value": "ClockAlignedDataInterval",
+        "type": "string"
     },
     "StopTxnAlignedDataMaxLength": {
         "readOnly": true,
         "value": 1,
-        "type": "boolean"
+        "type": "uint8"
     },
     "StopTxnSampledData": {
-        "readOnly": true,
-        "value": 1,
-        "type": "boolean"
+        "readOnly": false,
+        "value": "MeterValues CSL",
+        "type": "string"
     },
     "StopTxnSampledDataMaxLength": {
         "readOnly": true,
         "value": 1,
-        "type": "boolean"
+        "type": "uint8"
     },
     "SupportedFeatureProfiles": {
         "readOnly": true,
-        "value": 1,
-        "type": "boolean"
+        "value": "feature profiles CSL",
+        "type": "string"
     },
     "SupportedFeatureProfilesMaxLength": {
         "readOnly": true,
         "value": 1,
-        "type": "boolean"
+        "type": "uint8"
     },
     "TransactionMessageAttempts": {
-        "readOnly": true,
+        "readOnly": false,
         "value": 1,
-        "type": "boolean"
+        "type": "uint8"
     },
     "TransactionMessageRetryInterval": {
-        "readOnly": true,
+        "readOnly": false,
         "value": 1,
-        "type": "boolean"
+        "type": "uint16"
     },
     "UnlockConnectorOnEVSideDisconnect": {
-        "readOnly": true,
+        "readOnly": false,
         "value": 1,
         "type": "boolean"
     },
     "WebSocketPingInterval": {
-        "readOnly": true,
+        "readOnly": false,
         "value": 1,
-        "type": "boolean"
+        "type": "uint8"
     },
     "LocalAuthListEnabled": {
-        "readOnly": true,
+        "readOnly": false,
         "value": 1,
         "type": "boolean"
     },
     "LocalAuthListMaxLength": {
-        "readOnly": true,
+        "readOnly": false,
         "value": 1,
-        "type": "boolean"
+        "type": "uint8"
     },
     "SendLocalListMaxLength": {
         "readOnly": true,
         "value": 1,
-        "type": "boolean"
+        "type": "uint8"
     },
     "ReserveConnectorZeroSupported": {
         "readOnly": true,
@@ -192,17 +192,17 @@
     "ChargeProfileMaxStackLevel": {
         "readOnly": true,
         "value": 1,
-        "type": "boolean"
+        "type": "uint8"
     },
     "ChargingScheduleAllowedChargingRateUnit": {
         "readOnly": true,
-        "value": 1,
-        "type": "boolean"
+        "value": "Charging Schedule CSL",
+        "type": "string"
     },
     "ChargingScheduleMaxPeriods": {
         "readOnly": true,
         "value": 1,
-        "type": "boolean"
+        "type": "uint8"
     },
     "ConnectorSwitch3to1PhaseSupported": {
         "readOnly": true,
@@ -212,6 +212,6 @@
     "MaxChargingProfilesInstalled": {
         "readOnly": true,
         "value": 1,
-        "type": "boolean"
+        "type": "uint8"
     }
 }

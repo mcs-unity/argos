@@ -8,6 +8,8 @@ import (
 	"strings"
 	"sync"
 	"time"
+
+	"github.com/mcs-unity/ocpp-simulator/internal/exception"
 )
 
 func (e *Event) SubScribe(k key, name string, cb Callback) error {
@@ -60,7 +62,12 @@ func (e *Event) Remove(k key, n name) error {
 	return nil
 }
 
-func (e *Event) execute(list []subscription, payload any) error {
+func runCallback(ctx context.Context, cb Callback, c Done, p Payload) {
+	defer exception.Exception()
+	cb(ctx, c, p)
+}
+
+func (e *Event) execute(list []subscription, p Payload) error {
 	e.lock.Lock()
 	defer e.lock.Unlock()
 
@@ -69,12 +76,12 @@ func (e *Event) execute(list []subscription, payload any) error {
 	}
 
 	for _, cn := range list {
-		ctx, cancel := context.WithTimeout(context.Background(), 1*time.Second)
+		ctx, cancel := context.WithTimeout(context.Background(), e.timeout)
 		defer cancel()
 
 		c := make(chan interface{}, 1)
 		defer close(c)
-		go cn.Callback(ctx, c, payload)
+		go runCallback(ctx, cn.Callback, c, p)
 
 		select {
 		case <-c:

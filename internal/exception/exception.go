@@ -27,6 +27,5 @@ func printError(err any) {
 func Exception() {
 	if err := recover(); err != nil {
 		printError(err)
-		fmt.Println("simulator has exited")
 	}
 }
