@@ -3,6 +3,7 @@
         "bootnotification",
         "CSMS",
         "EVSE",
+        "mainboard",
         "ocpp",
         "RIFD",
         "SUSPENDEDEV",

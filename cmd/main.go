@@ -6,9 +6,7 @@ import (
 	"os/signal"
 	"time"
 
-	"github.com/mcs-unity/ocpp-simulator/internal/charger"
 	"github.com/mcs-unity/ocpp-simulator/internal/exception"
-	"github.com/mcs-unity/ocpp-simulator/internal/socket"
 )
 
 func printCopyRight(path string) {
@@ -34,24 +32,11 @@ func main() {
 		panic("input arguments invalid please use command <websocket> <connectors>")
 	}
 
-	ch, err := charger.NewCharger([]byte(args[1]), args[2], &socket.Socket{}, dir)
-	if err != nil {
-		panic(err)
-	}
-
-	if err := ch.Start(); err != nil {
-		panic(err)
-	}
-
 	c := make(chan os.Signal, 1)
 	defer close(c)
 
 	signal.Notify(c)
-
 	sig := <-c
 
 	fmt.Printf("\ngot %s exiting \n", sig.String())
-	if err := ch.Stop(); err != nil {
-		fmt.Println(err)
-	}
 }
