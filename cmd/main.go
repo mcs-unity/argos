@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"github.com/mcs-unity/ocpp-simulator/internal/exception"
+	"github.com/mcs-unity/ocpp-simulator/internal/mainboard"
 )
 
 func printCopyRight(path string) {
@@ -28,9 +29,11 @@ func main() {
 	}
 	printCopyRight(fmt.Sprintf("%s/resources/logo.txt", dir))
 
-	if len(args) < 3 {
+	if len(args) < 2 {
 		panic("input arguments invalid please use command <websocket> <connectors>")
 	}
+
+	mainboard.New([]byte(args[1]))
 
 	c := make(chan os.Signal, 1)
 	defer close(c)
