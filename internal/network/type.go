@@ -5,6 +5,7 @@ import (
 	"time"
 
 	"github.com/mcs-unity/ocpp-simulator/internal/event"
+	"github.com/mcs-unity/ocpp-simulator/internal/record"
 	"github.com/mcs-unity/ocpp-simulator/internal/socket"
 )
 
@@ -20,6 +21,7 @@ type INetwork interface {
 }
 
 type network struct {
+	r       record.IRecord
 	lock    sync.Locker
 	state   event.State
 	sock    socket.ISocket

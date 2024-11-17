@@ -11,10 +11,11 @@ const (
 )
 
 const (
-	READY   State = "ready"
-	PENDING State = "pending"
-	ACTIVE  State = "active"
-	DATA    State = "data"
+	READY    State = "ready"
+	PENDING  State = "pending"
+	ACTIVE   State = "active"
+	STARTING State = "starting"
+	DATA     State = "data"
 )
 
 type State string

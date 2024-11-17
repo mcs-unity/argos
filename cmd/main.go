@@ -4,10 +4,12 @@ import (
 	"fmt"
 	"os"
 	"os/signal"
+	"syscall"
 	"time"
 
 	"github.com/mcs-unity/ocpp-simulator/internal/exception"
 	"github.com/mcs-unity/ocpp-simulator/internal/mainboard"
+	"github.com/mcs-unity/ocpp-simulator/internal/record"
 )
 
 func printCopyRight(path string) {
@@ -33,12 +35,17 @@ func main() {
 		panic("input arguments invalid please use command <websocket> <connectors>")
 	}
 
-	mainboard.New([]byte(args[1]))
+	r, err := record.New(dir)
+	if err != nil {
+		panic(err)
+	}
+
+	mainboard.New(r, []byte(args[1]))
 
 	c := make(chan os.Signal, 1)
 	defer close(c)
 
-	signal.Notify(c)
+	signal.Notify(c, syscall.SIGTERM, syscall.SIGINT, syscall.SIGQUIT, syscall.SIGABRT)
 	sig := <-c
 
 	fmt.Printf("\ngot %s exiting \n", sig.String())

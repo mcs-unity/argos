@@ -2,10 +2,10 @@ package mainboard
 
 import (
 	"context"
-	"fmt"
 
 	"github.com/mcs-unity/ocpp-simulator/internal/event"
 	"github.com/mcs-unity/ocpp-simulator/internal/network"
+	"github.com/mcs-unity/ocpp-simulator/internal/record"
 )
 
 func (m *mainboard) networkState(ctx context.Context, d event.Done, p event.Payload) {
@@ -17,7 +17,7 @@ func (m *mainboard) networkState(ctx context.Context, d event.Done, p event.Payl
 	switch v {
 	case event.READY:
 		if err := m.network.Connect(m.url); err != nil {
-			fmt.Println(err)
+			m.r.Write(err, record.ERROR)
 		}
 	default:
 		return
@@ -26,14 +26,18 @@ func (m *mainboard) networkState(ctx context.Context, d event.Done, p event.Payl
 
 func subscribe(m *mainboard, e ...event.IEvent) {
 	for _, ev := range e {
-		ev.SubScribe(event.READY, "connect", m.networkState)
+		if err := ev.SubScribe(event.READY, "connect", m.networkState); err != nil {
+			m.r.Write(err, record.ERROR)
+		}
+
 	}
 }
 
-func New(url []byte) IMainboard {
+func New(r record.IRecord, url []byte) IMainboard {
 	m := &mainboard{
+		r,
 		url,
-		network.New(network.TIMEOUT), // load env timeout here
+		network.New(r, network.TIMEOUT), // load env timeout here
 	}
 
 	subscribe(m, m.network.Event())

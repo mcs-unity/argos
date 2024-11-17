@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"github.com/mcs-unity/ocpp-simulator/internal/event"
+	"github.com/mcs-unity/ocpp-simulator/internal/record"
 	"github.com/mcs-unity/ocpp-simulator/internal/socket"
 )
 
@@ -68,14 +69,16 @@ func (n network) Event() event.IEvent {
 }
 
 func (n *network) changeState(s event.State) {
+	n.r.Write(fmt.Sprintf("network changed state from %s to %s", n.state, s), record.EVENT)
 	n.state = s
 	n.trigger.Trigger(s, s)
 }
 
-func New(timeout time.Duration) INetwork {
+func New(r record.IRecord, timeout time.Duration) INetwork {
 	n := &network{
+		r,
 		&sync.Mutex{},
-		event.READY,
+		event.STARTING,
 		&socket.Socket{},
 		event.NewEvent(event.TIMEOUT),
 		timeout,
@@ -83,7 +86,7 @@ func New(timeout time.Duration) INetwork {
 
 	go func() {
 		time.Sleep(1 * time.Second)
-		n.changeState(n.state)
+		n.changeState(event.READY)
 	}()
 
 	return n
