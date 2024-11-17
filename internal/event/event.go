@@ -12,11 +12,11 @@ import (
 	"github.com/mcs-unity/ocpp-simulator/internal/exception"
 )
 
-func (e *Event) SubScribe(k key, name string, cb Callback) error {
+func (e *Event) SubScribe(k State, name string, cb Callback) error {
 	e.lock.Lock()
 	defer e.lock.Unlock()
 
-	if strings.Trim(k, "") == "" {
+	if strings.Trim(string(k), "") == "" {
 		return errors.New("key may not be an empty string")
 	}
 
@@ -32,7 +32,7 @@ func (e *Event) SubScribe(k key, name string, cb Callback) error {
 	return nil
 }
 
-func (e *Event) Length(k key) int {
+func (e *Event) Length(k State) int {
 	if v, ok := e.list[k]; ok {
 		return len(v)
 	}
@@ -40,7 +40,7 @@ func (e *Event) Length(k key) int {
 	return -1
 }
 
-func (e *Event) Remove(k key, n name) error {
+func (e *Event) Remove(k State, n name) error {
 	v, ok := e.list[k]
 	if !ok {
 		return fmt.Errorf("unable to find key %s", k)
@@ -48,7 +48,7 @@ func (e *Event) Remove(k key, n name) error {
 
 	index := -1
 	for i, s := range v {
-		if s.key != n {
+		if s.string != n {
 			continue
 		}
 		index = i
@@ -93,8 +93,8 @@ func (e *Event) execute(list []subscription, p Payload) error {
 	return nil
 }
 
-func (e *Event) Trigger(k key, payload any) error {
-	if strings.Trim(k, "") == "" {
+func (e *Event) Trigger(k State, payload any) error {
+	if strings.Trim(string(k), "") == "" {
 		return errors.New("key may not be an empty string")
 	}
 
@@ -108,7 +108,7 @@ func (e *Event) Trigger(k key, payload any) error {
 func NewEvent(timeout time.Duration) IEvent {
 	return &Event{
 		&sync.Mutex{},
-		make(map[string][]subscription),
+		make(map[State][]subscription),
 		timeout,
 	}
 }

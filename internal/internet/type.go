@@ -1,21 +1,21 @@
 package network
 
-import "github.com/mcs-unity/ocpp-simulator/internal/socket"
+import (
+	"sync"
 
-const (
-	READY   state = "ready"
-	PENDING state = "pending"
-	ACTIVE  state = "active"
+	"github.com/mcs-unity/ocpp-simulator/internal/event"
+	"github.com/mcs-unity/ocpp-simulator/internal/socket"
 )
-
-type state string
 
 type INetwork interface {
 	Connect(url []byte) error
 	Disconnect() error
+	Event() event.IEvent
 }
 
 type network struct {
-	state state
-	sock  socket.ISocket
+	lock    sync.Locker
+	state   event.State
+	sock    socket.ISocket
+	trigger event.IEvent
 }

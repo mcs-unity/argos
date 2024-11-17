@@ -69,7 +69,7 @@ func TestSubscribeBadCallBack(t *testing.T) {
 }
 
 func TestSubscriber(t *testing.T) {
-	key := "test"
+	key := READY
 	c := NewEvent(TIMEOUT)
 	cn := make(chan interface{}, 1)
 	defer close(cn)
@@ -96,7 +96,7 @@ func TestSubscriber(t *testing.T) {
 }
 
 func TestDeleteSubscription(t *testing.T) {
-	key := "test"
+	key := READY
 	name := "testFn"
 	c := NewEvent(TIMEOUT)
 	fn := MockSubscriber(nil)
@@ -115,7 +115,7 @@ func TestDeleteSubscription(t *testing.T) {
 }
 
 func TestSubscriberTriggeredBasedOnOrder(t *testing.T) {
-	key := "test"
+	key := READY
 	c := NewEvent(1 * time.Second)
 	cn := make(chan interface{}, 2)
 	defer close(cn)
@@ -149,7 +149,7 @@ func TestSubscriberTriggeredBasedOnOrder(t *testing.T) {
 }
 
 func TestBlockingSubscriber(t *testing.T) {
-	key := "test"
+	key := READY
 	c := NewEvent(1 * time.Second)
 	cn := make(chan interface{}, 1)
 	defer close(cn)
@@ -182,7 +182,7 @@ func TestBlockingSubscriber(t *testing.T) {
 }
 
 func TestSubscriberPanicking(t *testing.T) {
-	key := "test"
+	key := READY
 	c := NewEvent(1 * time.Second)
 	cn := make(chan interface{}, 1)
 	defer close(cn)

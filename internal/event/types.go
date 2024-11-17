@@ -7,29 +7,36 @@ import (
 )
 
 const (
-	TIMEOUT = 30 * time.Second
+	TIMEOUT = 5 * time.Second
 )
 
-type key = string
+const (
+	READY   State = "ready"
+	PENDING State = "pending"
+	ACTIVE  State = "active"
+	DATA    State = "data"
+)
+
+type State string
 type name = string
 type Payload = any
 type Done = chan interface{}
 type Callback func(context.Context, Done, Payload)
 
 type IEvent interface {
-	SubScribe(key, name, Callback) error
-	Remove(key, name) error
-	Trigger(key, Payload) error
-	Length(key) int
+	SubScribe(State, name, Callback) error
+	Remove(State, name) error
+	Trigger(State, Payload) error
+	Length(State) int
 }
 
 type subscription struct {
-	key
+	string
 	Callback
 }
 
 type Event struct {
 	lock    sync.Locker
-	list    map[key][]subscription
+	list    map[State][]subscription
 	timeout time.Duration
 }
