@@ -26,7 +26,7 @@
     },
     "ConnectionTimeOut": {
         "readOnly": false,
-        "value": 1,
+        "value": 20,
         "type": "uint8"
     },
     "ConnectorPhaseRotation": {
@@ -41,7 +41,7 @@
     },
     "GetConfigurationMaxKeys": {
         "readOnly": true,
-        "value": 1,
+        "value": 31,
         "type": "uint8"
     },
     "HeartbeatInterval": {
@@ -67,7 +67,7 @@
     "MaxEnergyOnInvalidId": {
         "readOnly": false,
         "value": 1,
-        "type": "int32"
+        "type": "uint32"
     },
     "MeterValuesAlignedData": {
         "readOnly": false,

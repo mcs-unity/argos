@@ -56,8 +56,8 @@ func (n *network) Disconnect() error {
 }
 
 func (n *network) SetTimeout(t time.Duration) error {
-	if t < 10*time.Second {
-		return errors.New("timeout must be 10 seconds or greater")
+	if t < 20*time.Second {
+		return errors.New("timeout must be 20 seconds or greater")
 	}
 
 	n.timeout = t
@@ -84,10 +84,12 @@ func New(r record.IRecord, timeout time.Duration) INetwork {
 		timeout,
 	}
 
+	r.Write("network booting up", record.EVENT)
 	go func() {
-		time.Sleep(1 * time.Second)
+		time.Sleep(SYSTEM_BOOT)
 		n.changeState(event.READY)
 	}()
+	r.Write("network boot completed", record.EVENT)
 
 	return n
 }

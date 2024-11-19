@@ -10,7 +10,8 @@ import (
 )
 
 const (
-	TIMEOUT = 10 * time.Second
+	SYSTEM_BOOT = 3 * time.Second
+	TIMEOUT     = 20 * time.Second
 )
 
 type INetwork interface {

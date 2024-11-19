@@ -1,0 +1,7 @@
+{
+    "NumberOfConnectors": {
+        "readOnly": true,
+        "value": 2,
+        "type": "uint8"
+    }
+}
