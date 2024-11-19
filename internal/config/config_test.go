@@ -4,7 +4,12 @@ import (
 	"testing"
 )
 
+func cleanup() {
+	configuration = nil
+}
+
 func TestLoadConfigFile(t *testing.T) {
+	defer cleanup()
 	if err := Load("./config.json"); err != nil {
 		t.Error(err)
 	}

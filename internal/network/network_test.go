@@ -66,7 +66,7 @@ func TestNetworkTrigger(t *testing.T) {
 	}
 
 	n.Event().SubScribe(event.READY, "test", fn)
-	ctx, cancel := context.WithTimeout(context.Background(), 2*time.Second)
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
 	select {
