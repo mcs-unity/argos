@@ -2,7 +2,6 @@
 
 1. connector
     1. implement state management to process transactions
-    2. integrate with event management
 
 2. add transaction handler
     1. link request and response
