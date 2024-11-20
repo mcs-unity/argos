@@ -10,7 +10,7 @@ func cleanup() {
 
 func TestLoadConfigFile(t *testing.T) {
 	defer cleanup()
-	if err := Load("./config.json"); err != nil {
+	if err := Load(); err != nil {
 		t.Error(err)
 	}
 
@@ -20,11 +20,11 @@ func TestLoadConfigFile(t *testing.T) {
 }
 
 func TestLoadConfigFileTwice(t *testing.T) {
-	if err := Load("./config.json"); err != nil {
+	if err := Load(); err != nil {
 		t.Error(err)
 	}
 
-	if err := Load("./config.json"); err == nil {
+	if err := Load(); err == nil {
 		t.Error("should only load once")
 	}
 }

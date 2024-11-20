@@ -1,13 +1,14 @@
 package config
 
 import (
+	_ "embed"
 	"encoding/json"
-	"errors"
-	"os"
 	"reflect"
 	"sync"
 )
 
+//go:embed config.json
+var file []byte
 var lock sync.Locker
 var configuration list
 
@@ -27,21 +28,12 @@ func Get(k key, dataType string) *Variable {
 	return nil
 }
 
-func Load(path string) error {
-	if configuration != nil {
-		return errors.New("variables are already loaded")
-	}
-
+func Load() error {
 	lock.Lock()
 	defer lock.Unlock()
 
 	l := make(list, 1)
-	b, err := os.ReadFile(path)
-	if err != nil {
-		return err
-	}
-
-	if err := json.Unmarshal(b, &l); err != nil {
+	if err := json.Unmarshal([]byte(file), &l); err != nil {
 		return err
 	}
 	configuration = l
