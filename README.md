@@ -72,7 +72,6 @@ user@domain:~$ docker build  -f docker/dockerfile -t <image name> .
 
 - [Golang](https://golang.org/)
 - [Docker](https://docker.com)
-- [Open SSl](https://openssl.org)
 - [Editor config](https://editorconfig.org/)
 - [GIT](https://git-scm.com/)
 - [Visual Studio Code](https://code.visualstudio.com/)
