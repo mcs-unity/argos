@@ -5,7 +5,25 @@ func Response(id UniqueId, p Payload) []any {
 }
 
 func ResponseConv(p []any) (*ResponseData, error) {
-	return &ResponseData{}, nil
+	if len(p) < 3 {
+		return nil, &OCPPError{}
+	}
+	r := &ResponseData{}
+
+	call, ok := p[0].(float64)
+	if !ok {
+		return nil, &OCPPError{}
+	}
+	r.Call = call
+
+	uuid, ok := p[1].(string)
+	if !ok {
+		return nil, &OCPPError{}
+	}
+	r.UUID = uuid
+
+	r.Data = p[2]
+	return r, nil
 }
 
 func Request(id UniqueId, a Action, p Payload) []any {
@@ -13,5 +31,29 @@ func Request(id UniqueId, a Action, p Payload) []any {
 }
 
 func RequestConv(p []any) (*RequestData, error) {
-	return &RequestData{}, nil
+	if len(p) < 4 {
+		return nil, &OCPPError{}
+	}
+	r := &RequestData{}
+
+	call, ok := p[0].(float64)
+	if !ok {
+		return nil, &OCPPError{}
+	}
+	r.Call = call
+
+	uuid, ok := p[1].(string)
+	if !ok {
+		return nil, &OCPPError{}
+	}
+	r.UUID = uuid
+
+	action, ok := p[2].(Action)
+	if !ok {
+		return nil, &OCPPError{}
+	}
+	r.Action = action
+
+	r.Data = p[3]
+	return r, nil
 }

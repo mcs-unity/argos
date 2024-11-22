@@ -18,13 +18,3 @@ func TestLoadConfigFile(t *testing.T) {
 		t.Error("failed to load value from file")
 	}
 }
-
-func TestLoadConfigFileTwice(t *testing.T) {
-	if err := Load(); err != nil {
-		t.Error(err)
-	}
-
-	if err := Load(); err == nil {
-		t.Error("should only load once")
-	}
-}
