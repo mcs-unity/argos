@@ -1,10 +1,10 @@
 package ocpp
 
-func Response(id UniqueId, p Payload) []any {
+func Response(id UniqueId, p Payload) []Payload {
 	return []any{RESPONSE, id, p}
 }
 
-func ResponseConv(p []any) (*ResponseData, error) {
+func ResponseConv(p []Payload) (*ResponseData, error) {
 	if len(p) < 3 {
 		return nil, &OCPPError{}
 	}
@@ -26,11 +26,11 @@ func ResponseConv(p []any) (*ResponseData, error) {
 	return r, nil
 }
 
-func Request(id UniqueId, a Action, p Payload) []any {
+func Request(id UniqueId, a Action, p Payload) []Payload {
 	return []any{CALL, id, a, p}
 }
 
-func RequestConv(p []any) (*RequestData, error) {
+func RequestConv(p []Payload) (*RequestData, error) {
 	if len(p) < 4 {
 		return nil, &OCPPError{}
 	}
