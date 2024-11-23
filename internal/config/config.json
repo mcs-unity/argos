@@ -46,7 +46,7 @@
     },
     "HeartbeatInterval": {
         "readOnly": false,
-        "value": 30,
+        "value": 300,
         "type": "uint16"
     },
     "LightIntensity": {
