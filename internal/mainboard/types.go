@@ -1,6 +1,7 @@
 package mainboard
 
 import (
+	"github.com/mcs-unity/ocpp-simulator/internal/action"
 	network "github.com/mcs-unity/ocpp-simulator/internal/network"
 	"github.com/mcs-unity/ocpp-simulator/internal/record"
 )
@@ -12,4 +13,5 @@ type mainboard struct {
 	r       record.IRecord
 	url     []byte
 	network network.INetwork
+	action.IHandler
 }

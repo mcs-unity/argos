@@ -1,16 +1,23 @@
 package action
 
-import "github.com/mcs-unity/ocpp-simulator/internal/ocpp"
+import (
+	"github.com/mcs-unity/ocpp-simulator/internal/event"
+	"github.com/mcs-unity/ocpp-simulator/internal/ocpp"
+)
 
 const HEARTBEAT = "Heartbeat"
 
 func (h heartbeat) Request(id ocpp.UniqueId) {
-	// crate channel
-	// send message with channel
-	// wait for channel to trigger
+	// send message to CSMS
 }
 
-func (h heartbeat) Response(p ocpp.Payload) {}
+func (h heartbeat) Response(p ocpp.Payload, e event.IEvent) {
+	// verify response payload before trigger
+	if p == nil {
+		return
+	}
 
-type heartbeat struct {
+	e.Trigger(HEARTBEAT, p)
 }
+
+type heartbeat struct{}

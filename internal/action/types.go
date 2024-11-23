@@ -1,8 +1,10 @@
 package action
 
 import (
+	"sync"
 	"time"
 
+	"github.com/mcs-unity/ocpp-simulator/internal/event"
 	"github.com/mcs-unity/ocpp-simulator/internal/ocpp"
 )
 
@@ -11,6 +13,16 @@ const (
 )
 
 type IAction interface {
-	Request(id ocpp.UniqueId)
-	Response(p ocpp.Payload)
+	Request(ocpp.UniqueId)
+	Response(ocpp.Payload, event.IEvent)
+}
+
+type IHandler interface {
+	Send(a ocpp.Action) error
+}
+
+type handler struct {
+	lock  sync.Locker
+	event event.IEvent
+	list  map[ocpp.Action]IAction
 }

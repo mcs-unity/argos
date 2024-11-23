@@ -2,17 +2,25 @@ package action
 
 import (
 	"context"
+	"fmt"
+	"sync"
 
 	"github.com/google/uuid"
 	"github.com/mcs-unity/ocpp-simulator/internal/channel"
+	"github.com/mcs-unity/ocpp-simulator/internal/event"
 	"github.com/mcs-unity/ocpp-simulator/internal/ocpp"
 )
 
-func Submit(a ocpp.Action) error {
+var Handler IHandler
+
+func (ac *handler) Send(a ocpp.Action) error {
+	ac.lock.Lock()
+	defer ac.lock.Unlock()
+
 	id := uuid.New().String()
 	c := channel.New(id)
 	defer c.Close()
-	handler, ok := list[a]
+	handler, ok := ac.list[a]
 	if !ok {
 		return ocpp.OCPPError{}
 	}
@@ -22,10 +30,22 @@ func Submit(a ocpp.Action) error {
 
 	select {
 	case <-ctx.Done():
-		//retry
-		return nil
+		return fmt.Errorf("%s response exceeded timeout limit", a)
 	case p := <-c.Listener():
-		handler.Response(p)
+		handler.Response(p, ac.event)
 	}
+
 	return nil
+}
+
+func init() {
+	h := &handler{
+		&sync.Mutex{},
+		event.NewEvent(event.TIMEOUT),
+		make(map[ocpp.Action]IAction, 1),
+	}
+
+	h.list[HEARTBEAT] = heartbeat{}
+	h.list[BOOTNOTIFICATION] = bootNotification{}
+	Handler = h
 }
